@@ -175,8 +175,8 @@ export default function Home() {
           {/* RIGHT COLUMN - Channels + Ads */}
           <div className="w-full lg:w-[420px] flex flex-col gap-4 sm:gap-5 lg:h-full">
             {/* Channel Grid */}
-            <div className="glass-strong rounded-xl p-4 sm:p-5 lg:p-6">
-              <div className="flex items-center gap-3 mb-4 sm:mb-5 pb-3 sm:pb-4 border-b border-white/5">
+            <div className="glass-strong rounded-xl p-3 sm:p-4 lg:p-6">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-5 pb-2 sm:pb-3 lg:pb-4 border-b border-white/5">
                 <div className="p-2 rounded-lg bg-blue-600/10 border border-blue-600/20">
                   <Tv className="w-4 h-4 text-blue-400" />
                 </div>
@@ -185,34 +185,34 @@ export default function Home() {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-2 gap-2 sm:gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-2 gap-1.5 sm:gap-2 lg:gap-3">
                 {channels.map((channel) => (
                   <button
                     key={channel.id}
                     onClick={() => setActiveChannelId(channel.id)}
                     className={`
-                      group relative p-2 sm:p-3 lg:p-4 rounded-lg transition-all
+                      group relative p-1.5 sm:p-2 lg:p-4 rounded-lg transition-all
                       ${activeChannelId === channel.id
                         ? 'bg-blue-600/10 border-2 border-blue-600/40'
                         : 'bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-blue-600/20'
                       }
                     `}
                   >
-                    <div className="relative flex flex-col items-center gap-1.5 sm:gap-2 lg:gap-2.5 text-center">
+                    <div className="relative flex flex-col items-center gap-1 sm:gap-1.5 lg:gap-2.5 text-center">
                       <div className={`
-                        p-1.5 sm:p-2 lg:p-2.5 rounded-lg transition-all
+                        p-1 sm:p-1.5 lg:p-2.5 rounded-lg transition-all
                         ${activeChannelId === channel.id
                           ? 'bg-blue-600/20'
                           : 'bg-white/[0.03] group-hover:bg-white/[0.06]'
                         }
                       `}>
                         <div className={activeChannelId === channel.id ? 'text-blue-400' : 'text-gray-400 group-hover:text-gray-300 transition-colors'}>
-                          {channelIcons[channel.id] || <Film className="w-4 h-4 sm:w-5 sm:h-5" />}
+                          {channelIcons[channel.id] || <Film className="w-4 h-4 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
                         </div>
                       </div>
 
                       <div className="w-full">
-                        <h4 className={`font-semibold text-[10px] sm:text-xs mb-0.5 sm:mb-1 line-clamp-1 ${
+                        <h4 className={`font-semibold text-[9px] sm:text-[10px] lg:text-xs mb-0 sm:mb-0.5 lg:mb-1 line-clamp-1 ${
                           activeChannelId === channel.id ? 'text-white' : 'text-gray-300 group-hover:text-white'
                         }`}>
                           {channel.name}
@@ -221,11 +221,11 @@ export default function Home() {
                           {channel.description}
                         </p>
                         {channel.isLive && (
-                          <div className="flex items-center justify-center gap-1 sm:gap-1.5">
+                          <div className="flex items-center justify-center gap-0.5 sm:gap-1">
                             <span className={`w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full ${
                               activeChannelId === channel.id ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'
                             }`}></span>
-                            <span className={`text-[9px] sm:text-[10px] font-semibold ${
+                            <span className={`text-[8px] sm:text-[9px] lg:text-[10px] font-semibold ${
                               activeChannelId === channel.id ? 'text-red-400' : 'text-emerald-400'
                             }`}>
                               LIVE
@@ -240,7 +240,7 @@ export default function Home() {
             </div>
 
             {/* Ad Banner */}
-            <div className="h-[280px] sm:h-[320px] lg:h-[calc(100%-360px)]">
+            <div className="h-[280px] sm:h-[320px] lg:flex-1 lg:min-h-[280px]">
               <AdBanner />
             </div>
           </div>
