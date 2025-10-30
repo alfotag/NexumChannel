@@ -96,17 +96,17 @@ export default function Home() {
     <div className="min-h-screen lg:h-screen flex flex-col overflow-hidden">
       <Header onLiveClick={handleLiveClick} onSiteClick={handleSiteClick} />
 
-      <main className="flex-1 px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8 overflow-y-auto lg:overflow-hidden">
-        <div className="h-full flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6">
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8 overflow-y-auto lg:overflow-hidden lg:min-h-0">
+        <div className="min-h-full lg:h-full flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6">
           {/* LEFT COLUMN - News Widget (Hidden on mobile, shown on desktop) */}
-          <div className="hidden lg:flex lg:w-[420px] flex-col">
+          <div className="hidden lg:flex lg:w-[420px] flex-col lg:h-full">
             <NewsWidget />
           </div>
 
           {/* CENTER COLUMN - Video Player + Info */}
-          <div className="flex-1 flex flex-col gap-4 sm:gap-5 justify-start lg:justify-center">
+          <div className="flex-1 flex flex-col gap-4 sm:gap-5 justify-start lg:justify-center lg:h-full lg:max-h-full">
             {/* Video Player */}
-            <div className="w-full">
+            <div className="w-full lg:flex-shrink-0">
               <VideoPlayer
                 streamUrl={activeChannel.streamUrl}
                 poster="/placeholder-video.jpg"
@@ -173,9 +173,9 @@ export default function Home() {
           </div>
 
           {/* RIGHT COLUMN - Channels + Ads */}
-          <div className="w-full lg:w-[420px] flex flex-col gap-4 sm:gap-5">
+          <div className="w-full lg:w-[420px] flex flex-col gap-4 sm:gap-5 lg:h-full">
             {/* Channel Grid */}
-            <div className="glass-strong rounded-xl p-4 sm:p-5 lg:p-6">
+            <div className="glass-strong rounded-xl p-4 sm:p-5 lg:p-6 shrink-0">
               <div className="flex items-center gap-3 mb-4 sm:mb-5 pb-3 sm:pb-4 border-b border-white/5">
                 <div className="p-2 rounded-lg bg-blue-600/10 border border-blue-600/20">
                   <Tv className="w-4 h-4 text-blue-400" />
@@ -240,13 +240,13 @@ export default function Home() {
             </div>
 
             {/* Ad Banner */}
-            <div className="flex-1 min-h-[200px] lg:min-h-0">
+            <div className="h-[250px] sm:h-[300px] lg:flex-1 lg:min-h-0 lg:h-auto">
               <AdBanner />
             </div>
           </div>
 
           {/* News Widget - Shown on mobile/tablet at bottom */}
-          <div className="lg:hidden w-full">
+          <div className="lg:hidden w-full min-h-[400px]">
             <NewsWidget />
           </div>
         </div>
