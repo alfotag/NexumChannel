@@ -96,17 +96,25 @@ export default function Home() {
     <div className="min-h-screen lg:h-screen flex flex-col">
       <Header onLiveClick={handleLiveClick} onSiteClick={handleSiteClick} />
 
-      <main className="flex-1 px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8 overflow-y-auto lg:overflow-hidden">
-        <div className="lg:h-full flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6">
+      <main className="flex-1 lg:px-8 pb-4 sm:pb-6 lg:pb-8 overflow-y-auto lg:overflow-hidden">
+        {/* Video Player - Fixed on mobile, normal on desktop */}
+        <div className="fixed top-[60px] left-0 right-0 z-20 lg:hidden px-4">
+          <VideoPlayer
+            streamUrl={activeChannel.streamUrl}
+            poster="/placeholder-video.jpg"
+          />
+        </div>
+
+        <div className="lg:h-full flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 lg:px-0">
           {/* LEFT COLUMN - News Widget (Hidden on mobile, shown on desktop) */}
           <div className="hidden lg:block lg:w-[420px] lg:h-full lg:overflow-hidden">
             <NewsWidget />
           </div>
 
-          {/* CENTER COLUMN - Video Player + Info */}
+          {/* CENTER COLUMN - Video Player (desktop only) + Info */}
           <div className="lg:flex-1 flex flex-col gap-3 sm:gap-4 lg:gap-5 lg:justify-center">
-            {/* Video Player */}
-            <div className="w-full">
+            {/* Video Player - Desktop only */}
+            <div className="hidden lg:block w-full">
               <VideoPlayer
                 streamUrl={activeChannel.streamUrl}
                 poster="/placeholder-video.jpg"
@@ -114,7 +122,7 @@ export default function Home() {
             </div>
 
             {/* Info Bar */}
-            <div className="glass-strong rounded-xl lg:rounded-2xl px-4 sm:px-5 py-4 lg:py-0 lg:h-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 lg:gap-6">
+            <div className="glass-strong rounded-xl lg:rounded-2xl py-4 lg:py-0 lg:h-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 lg:gap-6 lg:mt-0 mt-[calc(56.25vw+72px)] mx-4 lg:mx-0 px-4 sm:px-5">
               <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-blue-500/30 to-cyan-500/30 flex items-center justify-center border border-cyan-400/50 p-2 shrink-0">
                   <Image
@@ -173,7 +181,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT COLUMN - Channels + Ads */}
-          <div className="w-full lg:w-[420px] flex flex-col gap-3 sm:gap-4 lg:gap-5 lg:h-full">
+          <div className="w-full lg:w-[420px] flex flex-col gap-3 sm:gap-4 lg:gap-5 lg:h-full px-4 lg:px-0">
             {/* Channel Grid */}
             <div className="glass-strong rounded-xl p-2 sm:p-3 lg:p-6">
               <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 mb-2 sm:mb-3 lg:mb-5 pb-1.5 sm:pb-2 lg:pb-4 border-b border-white/5">
@@ -246,7 +254,7 @@ export default function Home() {
           </div>
 
           {/* News Widget - Shown on mobile/tablet at bottom */}
-          <div className="lg:hidden w-full">
+          <div className="lg:hidden w-full px-4">
             <div className="h-[400px] sm:h-[500px]">
               <NewsWidget />
             </div>
