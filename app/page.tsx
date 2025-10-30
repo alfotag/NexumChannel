@@ -97,14 +97,14 @@ export default function Home() {
       <Header onLiveClick={handleLiveClick} onSiteClick={handleSiteClick} />
 
       <main className="flex-1 px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8 overflow-y-auto lg:overflow-hidden">
-        <div className="lg:h-full flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6">
+        <div className="lg:h-full flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6">
           {/* LEFT COLUMN - News Widget (Hidden on mobile, shown on desktop) */}
           <div className="hidden lg:block lg:w-[420px] lg:h-full lg:overflow-hidden">
             <NewsWidget />
           </div>
 
           {/* CENTER COLUMN - Video Player + Info */}
-          <div className="lg:flex-1 flex flex-col gap-4 sm:gap-5 lg:justify-center">
+          <div className="lg:flex-1 flex flex-col gap-3 sm:gap-4 lg:gap-5 lg:justify-center">
             {/* Video Player */}
             <div className="w-full">
               <VideoPlayer
@@ -173,46 +173,46 @@ export default function Home() {
           </div>
 
           {/* RIGHT COLUMN - Channels + Ads */}
-          <div className="w-full lg:w-[420px] flex flex-col gap-4 sm:gap-5 lg:h-full">
+          <div className="w-full lg:w-[420px] flex flex-col gap-3 sm:gap-4 lg:gap-5 lg:h-full">
             {/* Channel Grid */}
-            <div className="glass-strong rounded-xl p-3 sm:p-4 lg:p-6">
-              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-5 pb-2 sm:pb-3 lg:pb-4 border-b border-white/5">
-                <div className="p-2 rounded-lg bg-blue-600/10 border border-blue-600/20">
-                  <Tv className="w-4 h-4 text-blue-400" />
+            <div className="glass-strong rounded-xl p-2 sm:p-3 lg:p-6">
+              <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 mb-2 sm:mb-3 lg:mb-5 pb-1.5 sm:pb-2 lg:pb-4 border-b border-white/5">
+                <div className="p-1.5 rounded-lg bg-blue-600/10 border border-blue-600/20">
+                  <Tv className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-blue-400" />
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold text-white tracking-tight">
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-white tracking-tight">
                   Canali Live
                 </h3>
               </div>
 
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-2 gap-1.5 sm:gap-2 lg:gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-2 gap-1 sm:gap-1.5 lg:gap-3">
                 {channels.map((channel) => (
                   <button
                     key={channel.id}
                     onClick={() => setActiveChannelId(channel.id)}
                     className={`
-                      group relative p-1.5 sm:p-2 lg:p-4 rounded-lg transition-all
+                      group relative p-1 sm:p-1.5 lg:p-4 rounded-md lg:rounded-lg transition-all
                       ${activeChannelId === channel.id
                         ? 'bg-blue-600/10 border-2 border-blue-600/40'
                         : 'bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-blue-600/20'
                       }
                     `}
                   >
-                    <div className="relative flex flex-col items-center gap-1 sm:gap-1.5 lg:gap-2.5 text-center">
+                    <div className="relative flex flex-col items-center gap-0.5 sm:gap-1 lg:gap-2.5 text-center">
                       <div className={`
-                        p-1 sm:p-1.5 lg:p-2.5 rounded-lg transition-all
+                        p-0.5 sm:p-1 lg:p-2.5 rounded-md lg:rounded-lg transition-all
                         ${activeChannelId === channel.id
                           ? 'bg-blue-600/20'
                           : 'bg-white/[0.03] group-hover:bg-white/[0.06]'
                         }
                       `}>
                         <div className={activeChannelId === channel.id ? 'text-blue-400' : 'text-gray-400 group-hover:text-gray-300 transition-colors'}>
-                          {channelIcons[channel.id] || <Film className="w-4 h-4 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
+                          {channelIcons[channel.id] || <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
                         </div>
                       </div>
 
                       <div className="w-full">
-                        <h4 className={`font-semibold text-[9px] sm:text-[10px] lg:text-xs mb-0 sm:mb-0.5 lg:mb-1 line-clamp-1 ${
+                        <h4 className={`font-semibold text-[8px] sm:text-[9px] lg:text-xs mb-0 line-clamp-1 leading-tight ${
                           activeChannelId === channel.id ? 'text-white' : 'text-gray-300 group-hover:text-white'
                         }`}>
                           {channel.name}
@@ -221,11 +221,11 @@ export default function Home() {
                           {channel.description}
                         </p>
                         {channel.isLive && (
-                          <div className="flex items-center justify-center gap-0.5 sm:gap-1">
-                            <span className={`w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full ${
+                          <div className="flex items-center justify-center gap-0.5 mt-0.5">
+                            <span className={`w-0.5 sm:w-1 h-0.5 sm:h-1 rounded-full ${
                               activeChannelId === channel.id ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'
                             }`}></span>
-                            <span className={`text-[8px] sm:text-[9px] lg:text-[10px] font-semibold ${
+                            <span className={`text-[7px] sm:text-[8px] lg:text-[10px] font-semibold ${
                               activeChannelId === channel.id ? 'text-red-400' : 'text-emerald-400'
                             }`}>
                               LIVE
@@ -240,14 +240,14 @@ export default function Home() {
             </div>
 
             {/* Ad Banner */}
-            <div className="h-[280px] sm:h-[320px] lg:flex-1 lg:min-h-[280px]">
+            <div className="h-[200px] sm:h-[250px] lg:flex-1 lg:min-h-[280px]">
               <AdBanner />
             </div>
           </div>
 
           {/* News Widget - Shown on mobile/tablet at bottom */}
           <div className="lg:hidden w-full">
-            <div className="h-[500px] sm:h-[600px]">
+            <div className="h-[400px] sm:h-[500px]">
               <NewsWidget />
             </div>
           </div>
