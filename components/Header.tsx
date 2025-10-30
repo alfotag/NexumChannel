@@ -31,7 +31,7 @@ export default function Header({ onLiveClick, onSiteClick }: HeaderProps) {
   }, [newsItems.length]);
 
   return (
-    <header className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 relative">
+    <header className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 relative bg-[#0b0e14] lg:bg-transparent">
       <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
         {/* LEFT - Logo */}
         <div className="glass-strong px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 lg:py-4 rounded-lg sm:rounded-xl flex items-center gap-2 sm:gap-3 lg:gap-4 group w-auto lg:w-[420px]">
@@ -77,7 +77,7 @@ export default function Header({ onLiveClick, onSiteClick }: HeaderProps) {
         </div>
 
         {/* RIGHT - Actions Bar */}
-        <div className="glass-strong rounded-lg sm:rounded-xl px-2 sm:px-3 lg:px-5 py-2.5 sm:py-3 lg:py-4 flex items-center gap-2 sm:gap-3 lg:gap-4 w-auto lg:w-[420px] lg:justify-between">
+        <div className="glass-strong rounded-lg sm:rounded-xl px-2 sm:px-3 lg:px-5 py-2.5 sm:py-3 lg:py-4 flex items-center gap-2 sm:gap-3 lg:gap-6 w-auto lg:w-[420px] justify-end">
           <div className="hidden sm:flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => {/* Notifications */}}

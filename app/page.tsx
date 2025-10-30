@@ -93,28 +93,22 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen lg:h-screen flex flex-col">
-      <Header onLiveClick={handleLiveClick} onSiteClick={handleSiteClick} />
-
-      {/* Video Player - Fixed on mobile only */}
-      <div className="lg:hidden fixed top-[60px] left-0 right-0 z-20 px-4">
-        <VideoPlayer
-          streamUrl={activeChannel.streamUrl}
-          poster="/placeholder-video.jpg"
-        />
+    <div className="flex flex-col lg:h-screen">
+      <div className="fixed top-0 left-0 right-0 z-40 lg:relative">
+        <Header onLiveClick={handleLiveClick} onSiteClick={handleSiteClick} />
       </div>
 
-      <main className="flex-1 lg:px-8 pb-8 overflow-y-scroll lg:overflow-hidden">
-        <div className="lg:h-full flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 lg:px-0 min-h-screen lg:min-h-0">
+      <main className="flex-1 lg:px-8 pb-8 pt-[60px] lg:pt-0 lg:overflow-hidden">
+        <div className="lg:h-full flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 lg:px-0">
           {/* LEFT COLUMN - News Widget (Hidden on mobile, shown on desktop) */}
           <div className="hidden lg:block lg:w-[420px] lg:h-full lg:overflow-hidden">
             <NewsWidget />
           </div>
 
-          {/* CENTER COLUMN - Video Player (desktop only) + Info */}
+          {/* CENTER COLUMN - Video Player + Info */}
           <div className="lg:flex-1 flex flex-col gap-3 sm:gap-4 lg:gap-5 lg:justify-center">
-            {/* Video Player - Desktop only */}
-            <div className="hidden lg:block w-full">
+            {/* Video Player - Fixed on mobile, normal on desktop */}
+            <div className="w-full px-4 lg:px-0 fixed top-[72px] left-0 right-0 z-30 lg:relative lg:top-0 bg-[#0b0e14] lg:bg-transparent">
               <VideoPlayer
                 streamUrl={activeChannel.streamUrl}
                 poster="/placeholder-video.jpg"
@@ -122,7 +116,7 @@ export default function Home() {
             </div>
 
             {/* Info Bar */}
-            <div className="glass-strong rounded-xl lg:rounded-2xl py-4 lg:py-0 lg:h-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 lg:gap-6 mt-[calc(56.25vw+80px)] lg:mt-0 mx-4 lg:mx-0 px-4 sm:px-5">
+            <div className="glass-strong rounded-xl lg:rounded-2xl py-4 lg:py-0 lg:h-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 lg:gap-6 mt-[calc(56.25vw+56px)] lg:mt-0 mx-4 lg:mx-0 px-4 sm:px-5">
               <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-blue-500/30 to-cyan-500/30 flex items-center justify-center border border-cyan-400/50 p-2 shrink-0">
                   <Image
