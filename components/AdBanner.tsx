@@ -67,18 +67,18 @@ export default function AdBanner() {
   const currentAd = ads[currentIndex];
 
   return (
-    <div className="glass-strong rounded-xl p-6 h-full flex flex-col">
-      <div className="flex items-center justify-between mb-5 pb-4 border-b border-white/5">
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Partner</h3>
-        <div className="flex gap-1.5">
+    <div className="glass-strong rounded-xl p-4 sm:p-5 lg:p-6 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-4 sm:mb-5 pb-3 sm:pb-4 border-b border-white/5">
+        <h3 className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-wider">Partner</h3>
+        <div className="flex gap-1 sm:gap-1.5">
           {ads.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 rounded-full transition-all ${
+              className={`h-1 sm:h-1.5 rounded-full transition-all ${
                 index === currentIndex
-                  ? 'bg-blue-500 w-6'
-                  : 'bg-gray-700 w-1.5 hover:bg-gray-600'
+                  ? 'bg-blue-500 w-4 sm:w-6'
+                  : 'bg-gray-700 w-1 sm:w-1.5 hover:bg-gray-600'
               }`}
             />
           ))}
@@ -92,7 +92,7 @@ export default function AdBanner() {
           rel="noopener noreferrer"
           className="absolute inset-0 group cursor-pointer"
         >
-          <div className="h-full w-full p-6 flex flex-col items-center justify-center transition-all group-hover:opacity-90">
+          <div className="h-full w-full p-4 sm:p-5 lg:p-6 flex flex-col items-center justify-center transition-all group-hover:opacity-90">
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Sfondo più sobrio */}
               <div className={`absolute inset-0 rounded-lg ${
@@ -100,7 +100,7 @@ export default function AdBanner() {
                   ? 'bg-gradient-to-br from-gray-900 to-gray-800'
                   : 'bg-white/95'
               }`}></div>
-              <div className="relative w-4/5 h-4/5 flex items-center justify-center p-8">
+              <div className="relative w-4/5 h-4/5 flex items-center justify-center p-4 sm:p-6 lg:p-8">
                 <Image
                   src={currentAd.logo}
                   alt={currentAd.name}
@@ -110,8 +110,8 @@ export default function AdBanner() {
               </div>
             </div>
 
-            <div className="mt-4 text-center">
-              <span className="text-xs text-gray-500 font-medium">
+            <div className="mt-3 sm:mt-4 text-center">
+              <span className="text-[10px] sm:text-xs text-gray-500 font-medium">
                 Partner Ufficiale
               </span>
             </div>
@@ -121,16 +121,16 @@ export default function AdBanner() {
         {/* Navigation Arrows */}
         <button
           onClick={prevAd}
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-black/40 backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-all z-10"
+          className="absolute left-1.5 sm:left-2 top-1/2 -translate-y-1/2 w-7 sm:w-8 h-7 sm:h-8 rounded-lg bg-black/40 backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-all z-10"
         >
-          <ChevronLeft className="w-4 h-4 text-white" />
+          <ChevronLeft className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-white" />
         </button>
 
         <button
           onClick={nextAd}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-black/40 backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-all z-10"
+          className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 w-7 sm:w-8 h-7 sm:h-8 rounded-lg bg-black/40 backdrop-blur-sm flex items-center justify-center hover:bg-black/60 transition-all z-10"
         >
-          <ChevronRight className="w-4 h-4 text-white" />
+          <ChevronRight className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-white" />
         </button>
       </div>
     </div>
