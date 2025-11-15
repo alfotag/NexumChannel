@@ -15,6 +15,7 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showFullscreenButton, setShowFullscreenButton] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         setIsLoading(false);
+        setShowFullscreenButton(true);
         video.play().catch((err) => {
           console.error('Autoplay prevented:', err);
           setIsLoading(false);
@@ -68,6 +70,7 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
       video.src = streamUrl;
       video.addEventListener('loadedmetadata', () => {
         setIsLoading(false);
+        setShowFullscreenButton(true);
         video.play().catch((err) => {
           console.error('Autoplay prevented:', err);
           setIsLoading(false);
@@ -176,44 +179,24 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full aspect-video rounded-2xl overflow-hidden glass-strong border-2 border-white/10 shadow-2xl"
-    >
-      {/* Glow effect border */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-50"></div>
+    <>
+      <div
+        ref={containerRef}
+        className="relative w-full aspect-video rounded-2xl overflow-hidden glass-strong border-2 border-white/10 shadow-2xl"
+      >
+        {/* Glow effect border */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-50"></div>
 
-      <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
-        <video
-          ref={videoRef}
-          className="w-full h-full object-contain"
-          controls
-          poster={poster}
-          playsInline
-          webkit-playsinline="true"
-          x-webkit-airplay="allow"
-        />
-
-        {/* Fullscreen button */}
-        {!error && !isLoading && streamUrl && (
-          <button
-            onPointerDown={toggleFullscreen}
-            onClick={toggleFullscreen}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              toggleFullscreen(e as any);
-            }}
-            className="absolute top-4 right-4 z-[999] p-3 sm:p-4 rounded-xl bg-black/80 hover:bg-black/90 backdrop-blur-sm border-2 border-white/30 transition-all hover:scale-110 active:scale-95 shadow-lg cursor-pointer touch-none"
-            aria-label={isFullscreen ? 'Esci da schermo intero' : 'Schermo intero'}
-            type="button"
-          >
-            {isFullscreen ? (
-              <Minimize className="w-6 h-6 sm:w-7 sm:h-7 text-white drop-shadow-lg" />
-            ) : (
-              <Maximize className="w-6 h-6 sm:w-7 sm:h-7 text-white drop-shadow-lg" />
-            )}
-          </button>
-        )}
+        <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
+          <video
+            ref={videoRef}
+            className="w-full h-full object-contain"
+            controls
+            poster={poster}
+            playsInline
+            webkit-playsinline="true"
+            x-webkit-airplay="allow"
+          />
 
         {isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
@@ -267,5 +250,30 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
       <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-purple-400/30 rounded-bl-2xl"></div>
       <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-400/30 rounded-br-2xl"></div>
     </div>
+
+    {/* Fullscreen button - Outside video controls to avoid conflicts */}
+    {showFullscreenButton && !error && streamUrl && (
+      <button
+        onPointerDown={toggleFullscreen}
+        onClick={toggleFullscreen}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Touch started on fullscreen button');
+          toggleFullscreen(e as any);
+        }}
+        className="fixed bottom-20 right-4 lg:absolute lg:bottom-4 lg:right-4 z-[999] p-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 backdrop-blur-sm border-2 border-white/40 transition-all hover:scale-110 active:scale-95 shadow-2xl cursor-pointer"
+        aria-label={isFullscreen ? 'Esci da schermo intero' : 'Schermo intero'}
+        type="button"
+        style={{ touchAction: 'manipulation' }}
+      >
+        {isFullscreen ? (
+          <Minimize className="w-7 h-7 text-white drop-shadow-lg" />
+        ) : (
+          <Maximize className="w-7 h-7 text-white drop-shadow-lg" />
+        )}
+      </button>
+    )}
+  </>
   );
 }
