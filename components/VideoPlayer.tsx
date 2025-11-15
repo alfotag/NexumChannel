@@ -254,23 +254,19 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
     {/* Fullscreen button - Outside video controls to avoid conflicts */}
     {showFullscreenButton && !error && streamUrl && (
       <button
-        onPointerDown={toggleFullscreen}
-        onClick={toggleFullscreen}
-        onTouchStart={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          console.log('Touch started on fullscreen button');
-          toggleFullscreen(e as any);
+        onClick={(e) => {
+          console.log('===== BUTTON CLICKED =====');
+          alert('Pulsante cliccato! Sto tentando fullscreen...');
+          toggleFullscreen(e);
         }}
-        className="fixed bottom-20 right-4 lg:absolute lg:bottom-4 lg:right-4 z-[999] p-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 backdrop-blur-sm border-2 border-white/40 transition-all hover:scale-110 active:scale-95 shadow-2xl cursor-pointer"
+        className="fixed bottom-20 right-4 lg:absolute lg:bottom-4 lg:right-4 z-[9999] p-5 rounded-full bg-red-600 border-4 border-yellow-400 transition-all active:scale-95 shadow-2xl cursor-pointer select-none"
         aria-label={isFullscreen ? 'Esci da schermo intero' : 'Schermo intero'}
         type="button"
-        style={{ touchAction: 'manipulation' }}
       >
         {isFullscreen ? (
-          <Minimize className="w-7 h-7 text-white drop-shadow-lg" />
+          <Minimize className="w-8 h-8 text-white drop-shadow-lg" />
         ) : (
-          <Maximize className="w-7 h-7 text-white drop-shadow-lg" />
+          <Maximize className="w-8 h-8 text-white drop-shadow-lg" />
         )}
       </button>
     )}
