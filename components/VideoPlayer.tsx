@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
-import { Loader2, Play } from 'lucide-react';
+import { Loader2, Play, Maximize, Minimize } from 'lucide-react';
 
 interface VideoPlayerProps {
   streamUrl?: string;
@@ -11,8 +11,10 @@ interface VideoPlayerProps {
 
 export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
@@ -77,8 +79,62 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
     }
   }, [streamUrl]);
 
+  // Fullscreen event listener
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = async () => {
+    if (!containerRef.current) return;
+
+    try {
+      if (!isFullscreen) {
+        // Enter fullscreen
+        if (containerRef.current.requestFullscreen) {
+          await containerRef.current.requestFullscreen();
+        } else if ((containerRef.current as any).webkitRequestFullscreen) {
+          await (containerRef.current as any).webkitRequestFullscreen();
+        } else if ((containerRef.current as any).mozRequestFullScreen) {
+          await (containerRef.current as any).mozRequestFullScreen();
+        } else if ((containerRef.current as any).msRequestFullscreen) {
+          await (containerRef.current as any).msRequestFullscreen();
+        }
+      } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).mozCancelFullScreen) {
+          await (document as any).mozCancelFullScreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
+        }
+      }
+    } catch (err) {
+      console.error('Error toggling fullscreen:', err);
+    }
+  };
+
   return (
-    <div className="relative w-full aspect-video rounded-2xl overflow-hidden glass-strong border-2 border-white/10 shadow-2xl">
+    <div
+      ref={containerRef}
+      className="relative w-full aspect-video rounded-2xl overflow-hidden glass-strong border-2 border-white/10 shadow-2xl"
+    >
       {/* Glow effect border */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-50"></div>
 
@@ -90,6 +146,21 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
           poster={poster}
           playsInline
         />
+
+        {/* Fullscreen button */}
+        {!error && !isLoading && streamUrl && (
+          <button
+            onClick={toggleFullscreen}
+            className="absolute top-4 right-4 z-50 p-3 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm border border-white/20 transition-all hover:scale-110 active:scale-95"
+            aria-label={isFullscreen ? 'Esci da schermo intero' : 'Schermo intero'}
+          >
+            {isFullscreen ? (
+              <Minimize className="w-6 h-6 text-white" />
+            ) : (
+              <Maximize className="w-6 h-6 text-white" />
+            )}
+          </button>
+        )}
 
         {isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
