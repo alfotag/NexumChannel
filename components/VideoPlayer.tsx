@@ -117,36 +117,56 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
     };
   }, []);
 
-  const toggleFullscreen = async () => {
-    if (!videoRef.current) return;
+  const toggleFullscreen = async (e: React.MouseEvent | React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!videoRef.current) {
+      console.log('VideoRef not available');
+      return;
+    }
 
     const video = videoRef.current;
+    console.log('Toggle fullscreen clicked, isFullscreen:', isFullscreen);
+    console.log('Available methods:', {
+      webkitEnterFullscreen: typeof (video as any).webkitEnterFullscreen,
+      webkitRequestFullscreen: typeof (video as any).webkitRequestFullscreen,
+      requestFullscreen: typeof video.requestFullscreen,
+    });
 
     try {
       if (!isFullscreen) {
         // iOS Safari requires webkitEnterFullscreen on video element
-        if ((video as any).webkitEnterFullscreen) {
+        if (typeof (video as any).webkitEnterFullscreen === 'function') {
+          console.log('Using webkitEnterFullscreen');
           (video as any).webkitEnterFullscreen();
-        } else if ((video as any).webkitRequestFullscreen) {
+        } else if (typeof (video as any).webkitRequestFullscreen === 'function') {
+          console.log('Using webkitRequestFullscreen');
           await (video as any).webkitRequestFullscreen();
         } else if (video.requestFullscreen) {
+          console.log('Using requestFullscreen');
           await video.requestFullscreen();
-        } else if ((video as any).mozRequestFullScreen) {
+        } else if (typeof (video as any).mozRequestFullScreen === 'function') {
+          console.log('Using mozRequestFullScreen');
           await (video as any).mozRequestFullScreen();
-        } else if ((video as any).msRequestFullscreen) {
+        } else if (typeof (video as any).msRequestFullscreen === 'function') {
+          console.log('Using msRequestFullscreen');
           await (video as any).msRequestFullscreen();
+        } else {
+          console.log('No fullscreen method available');
         }
       } else {
         // Exit fullscreen
-        if ((video as any).webkitExitFullscreen) {
+        console.log('Exiting fullscreen');
+        if (typeof (video as any).webkitExitFullscreen === 'function') {
           (video as any).webkitExitFullscreen();
         } else if (document.exitFullscreen) {
           await document.exitFullscreen();
-        } else if ((document as any).webkitExitFullscreen) {
+        } else if (typeof (document as any).webkitExitFullscreen === 'function') {
           await (document as any).webkitExitFullscreen();
-        } else if ((document as any).mozCancelFullScreen) {
+        } else if (typeof (document as any).mozCancelFullScreen === 'function') {
           await (document as any).mozCancelFullScreen();
-        } else if ((document as any).msExitFullscreen) {
+        } else if (typeof (document as any).msExitFullscreen === 'function') {
           await (document as any).msExitFullscreen();
         }
       }
@@ -170,19 +190,27 @@ export default function VideoPlayer({ streamUrl, poster }: VideoPlayerProps) {
           controls
           poster={poster}
           playsInline
+          webkit-playsinline="true"
+          x-webkit-airplay="allow"
         />
 
         {/* Fullscreen button */}
         {!error && !isLoading && streamUrl && (
           <button
+            onPointerDown={toggleFullscreen}
             onClick={toggleFullscreen}
-            className="absolute top-4 right-4 z-50 p-3 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm border border-white/20 transition-all hover:scale-110 active:scale-95"
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              toggleFullscreen(e as any);
+            }}
+            className="absolute top-4 right-4 z-[999] p-3 sm:p-4 rounded-xl bg-black/80 hover:bg-black/90 backdrop-blur-sm border-2 border-white/30 transition-all hover:scale-110 active:scale-95 shadow-lg cursor-pointer touch-none"
             aria-label={isFullscreen ? 'Esci da schermo intero' : 'Schermo intero'}
+            type="button"
           >
             {isFullscreen ? (
-              <Minimize className="w-6 h-6 text-white" />
+              <Minimize className="w-6 h-6 sm:w-7 sm:h-7 text-white drop-shadow-lg" />
             ) : (
-              <Maximize className="w-6 h-6 text-white" />
+              <Maximize className="w-6 h-6 sm:w-7 sm:h-7 text-white drop-shadow-lg" />
             )}
           </button>
         )}
